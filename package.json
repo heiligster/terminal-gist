@@ -1,0 +1,19 @@
+{
+  "name": "terminal-gist",
+  "version": "0.0.1",
+  "description": "Create, Read, Update and Delete Gists on Github",
+  "main": "index.js",
+  "bin": {
+    "terminal-gist": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "superagent": "^1.8.3"
+  },
+  "author": "Philipp Müller <heiligster@gmail.com>",
+  "license": "MIT"
+}
