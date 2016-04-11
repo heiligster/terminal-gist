@@ -59,7 +59,7 @@ program
   .option('-u, --username <username>', 'Specify username to use to authenticate')
   .option('-p, --password <password>', 'Specify password to use to authenticate')
   .option('-d, --description <descr>', 'Short description for this gist')
-  .option('-p, --public <public>', 'Wheter the gist should be public')
+  .option('--public <public>', 'Wheter the gist should be public')
   .action(function (file, options) {
     if (!options.username) {
       console.log(chalk.red('Please provide a username'))
@@ -72,8 +72,8 @@ program
     }
 
     let payload = {
-      'description': program.description || 'No descriptionn provided',
-      'public': program.public || false,
+      'description': options.description || 'No descriptionn provided',
+      'public': options.public,
       'files': {}
     }
 
