@@ -2,12 +2,11 @@
 
 'use strict'
 
-const chalk = require('chalk')
-const config = require('./config')
-const endpoint = 'https://api.github.com'
 const fs = require('fs')
 const program = require('commander')
 const request = require('superagent')
+const chalk = require('chalk')
+const config = require('./config')
 const version = '0.0.1'
 
 /**
@@ -44,7 +43,7 @@ program
       return
     }
 
-    let req = request.get(endpoint + '/users/' + options.username + '/gists')
+    let req = request.get(config.endpoints.get + options.username + '/gists')
 
     if (options.password) {
       req.auth(options.username, options.password)
@@ -93,7 +92,7 @@ program
       payload.files[file] = { 'content': data }
 
       request
-        .post(endpoint + '/gists')
+        .post(config.endpoints.post)
         .auth(options.username, options.password)
         .set('Content-Type', 'application/json')
         .send(JSON.stringify(payload))
