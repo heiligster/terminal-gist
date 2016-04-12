@@ -1,6 +1,12 @@
 'use strict'
 
 module.exports = {
+  'endpoints': {
+    'get': 'https://api.github.com/users/',
+    'post': 'https://api.github.com/gists/',
+    'put': '',
+    'delete': ''
+  },
   'username': {
     option: '-u, --username <username>',
     description: 'Username for authentication'
