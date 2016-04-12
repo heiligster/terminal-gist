@@ -1,11 +1,21 @@
 'use strict'
 
 module.exports = {
+  'commands': {
+    'list': 'Get gists',
+    'create': 'Create a gist',
+    'delete': 'Delete a gist'
+  },
   'endpoints': {
     'get': 'https://api.github.com/users/',
-    'post': 'https://api.github.com/gists/',
+    'post': 'https://api.github.com/gists',
     'put': '',
     'delete': ''
+  },
+  'messages': {
+    'username': 'Please provide a username',
+    'password': 'Please provide a password',
+    'required': 'Please provide username and password'
   },
   'username': {
     option: '-u, --username <username>',
