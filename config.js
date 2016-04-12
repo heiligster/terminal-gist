@@ -10,7 +10,7 @@ module.exports = {
     'get': 'https://api.github.com/users/',
     'post': 'https://api.github.com/gists',
     'put': '',
-    'delete': ''
+    'delete': 'https://api.github.com/gists/'
   },
   'messages': {
     'username': 'Please provide a username',
