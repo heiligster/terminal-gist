@@ -3,7 +3,8 @@
 'use strict'
 
 const chalk = require('chalk')
-const endpoint = 'https://api.github.com/gists'
+const config = require('./config')
+const endpoint = 'https://api.github.com'
 const fs = require('fs')
 const program = require('commander')
 const request = require('superagent')
@@ -26,6 +27,7 @@ const handleResponse = (err, res) => {
  */
 const parseResponse = (res) => {
   res.forEach(function (gist) {
+    console.log(gist.url)
   })
 }
 
@@ -34,33 +36,38 @@ program.version(version)
 program
   .command('list')
   .description('Get a list of gists')
-  .option('-u, --username <username>', 'Specify username to use to authenticate')
-  .option('-p, --password <password>', 'Specify password to use to authenticate')
-  .action(function (options) {
+  .option(config.username.option, config.username.description)
+  .option(config.password.option, config.password.description)
+  .action((options) => {
     if (!options.username) {
       console.log(chalk.red('Please provide at least your username'))
       return
     }
 
-    request
-      .get('https://api.github.com/users/' + options.username + '/gists')
-      .end(function (err, res) {
-        if (err) {
-          return
-        }
+    let req = request.get(endpoint + '/users/' + options.username + '/gists')
 
-        parseResponse(res.body)
-      })
+    if (options.password) {
+      req.auth(options.username, options.password)
+    }
+
+    req.end((err, res) => {
+      if (err) {
+        console.error(chalk.red(err.status, err.message))
+        return
+      }
+
+      parseResponse(res.body)
+    })
   })
 
 program
   .command('create <file>')
   .description('Create a new gist')
-  .option('-u, --username <username>', 'Specify username to use to authenticate')
-  .option('-p, --password <password>', 'Specify password to use to authenticate')
-  .option('-d, --description <descr>', 'Short description for this gist')
-  .option('--public <public>', 'Wheter the gist should be public')
-  .action(function (file, options) {
+  .option(config.username.option, config.username.description)
+  .option(config.password.option, config.password.description)
+  .option(config.info.option, config.info.description)
+  .option(config.public.option, config.public.description)
+  .action((file, options) => {
     if (!options.username) {
       console.log(chalk.red('Please provide a username'))
       return
@@ -86,7 +93,7 @@ program
       payload.files[file] = { 'content': data }
 
       request
-        .post(endpoint)
+        .post(endpoint + '/gists')
         .auth(options.username, options.password)
         .set('Content-Type', 'application/json')
         .send(JSON.stringify(payload))
